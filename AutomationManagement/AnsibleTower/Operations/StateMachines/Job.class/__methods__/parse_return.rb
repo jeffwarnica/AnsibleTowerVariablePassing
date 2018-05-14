@@ -56,11 +56,10 @@ module AnsibleTowerVariablePassing
                     # goodstuff.sub!("\\\\", "\\")
                     log(:info, "goodstuff >>>>>>>>>>>>>>>>>>>>>>>#{goodstuff}<<<<<<<<<<<<<<<<<<<<<<") if @debug
                   else
-                    log(:info, "Magic regexp failed. You suck. May god have mercy on your soul")
+                    log(:info, "Magic regexp failed. You sure you did the right bookending in your playbook? hint: [#{RS}]" )
                     exit MIQ_ERROR
                   end
                   goodstuff = eval("\"#{goodstuff}\"")
-                  # goodstuff = "{#{goodstuff}}"
 
                   log(:info, "eval'd and {}'d goodstuff >>>>>>>>>>>>>>>>>>>>>>>#{goodstuff}<<<<<<<<<<<<<<<<<<<<<<") if @debug
                   parsed = JSON.parse(goodstuff)
