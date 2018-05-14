@@ -77,7 +77,8 @@ module AnsibleTowerVariablePassing
                 end
 
                 def job_template
-                  job_template = var_search(@handle.object, 'job_template') ||
+                  job_template = @handle.get_state_var(:job_template_name) ||
+                                 var_search(@handle.object, 'job_template') ||
                                  job_template_by_id ||
                                  job_template_by_provider ||
                                  job_template_by_name
