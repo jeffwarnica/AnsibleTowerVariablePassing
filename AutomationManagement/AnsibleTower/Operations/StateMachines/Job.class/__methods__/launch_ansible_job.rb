@@ -77,8 +77,7 @@ module AnsibleTowerVariablePassing
                 end
 
                 def job_template
-                  job_template = @handle.get_state_var(:job_template_name) ||
-                                 var_search(@handle.object, 'job_template') ||
+                  job_template = var_search(@handle.object, 'job_template') ||
                                  job_template_by_id ||
                                  job_template_by_provider ||
                                  job_template_by_name
@@ -90,7 +89,8 @@ module AnsibleTowerVariablePassing
                 end
 
                 def job_template_name
-                  @job_template_name ||= var_search(@handle.object, 'job_template_name') ||
+                  @job_template_name ||= @handle.get_state_var(:job_template_name) ||
+                                         var_search(@handle.object, 'job_template_name') ||
                                          var_search(@handle.object, 'dialog_job_template_name')
                   log(:info, "Found a job_template_name: [#{@job_template_name}]")
                   @job_template_name
