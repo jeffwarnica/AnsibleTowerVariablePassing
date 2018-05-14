@@ -1,0 +1,33 @@
+# a sample playbook demonstrating the process to integrate variable passing to/from CloudForms
+
+---
+  - hosts: localhost
+    connection: local
+    gather_facts: true
+
+#    tasks:
+#    - name: Dump all vars
+#      action: template src=templates/dumpall.j2 dest=/tmp/ansible.all
+
+    - name: set easy fact
+      set_fact:
+        foo: "foo value"
+
+    - name: set complex fact
+      set_fact:
+        complex:
+          sub_1: 'abc'
+          sub_2: 3l33t
+
+    - name: Build up data for CF
+      set_fact:
+        for_cf:
+          thing: 'thing value'
+          other_thing': 123
+          from_foo: '{{foo}}'
+          complex_thing: '{{complex}}'
+
+    - name: print all formatted. Maybe
+      debug:
+        msg: '¾{{ vars.for_cf | to_json}}¾'
+
