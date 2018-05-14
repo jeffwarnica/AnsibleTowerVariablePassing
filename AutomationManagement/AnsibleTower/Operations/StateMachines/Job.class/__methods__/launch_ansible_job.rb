@@ -118,7 +118,7 @@ module AnsibleTowerVariablePassing
                 def extra_variables
                   result = ansible_vars_from_objects(@handle.object, {})
                   result = ansible_vars_from_options(result)
-                  result['from_cf'] = JSON.parse($evm.root.get_state_var(:for_ansible))
+                  result['from_cf'] = JSON.parse(@handle.get_state_var(:for_ansible))
 
                   # result['manageiq'] = manageiq_extra_vars()
                   # result['manageiq_connection'] = manageiq_connection_env
