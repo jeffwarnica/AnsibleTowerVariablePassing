@@ -57,8 +57,8 @@ module AnsibleTowerVariablePassing
                     elsif key.starts_with?('dialog_param')
                       match_data = ANSIBLE_DIALOG_VAR_REGEX.match(key)
                       hash[match_data[1]] = object[key] if match_data
-                    elsif key == 'for_ansible'
-                      hash['from_cf'] = object[key]
+                    # elsif key == 'for_ansible'
+                    #   hash['from_cf'] = object[key]
                     end
                   end
                 end
@@ -117,6 +117,8 @@ module AnsibleTowerVariablePassing
                 def extra_variables
                   result = ansible_vars_from_objects(@handle.object, {})
                   result = ansible_vars_from_options(result)
+                  result['from_cf'] = JSON.parse($evm.root.get_state_var(:for_ansible))
+
                   # result['manageiq'] = manageiq_extra_vars()
                   # result['manageiq_connection'] = manageiq_connection_env
                   result
