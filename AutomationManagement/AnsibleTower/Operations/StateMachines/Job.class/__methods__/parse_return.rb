@@ -35,7 +35,7 @@ module AnsibleTowerVariablePassing
                   job_results = get_tower_job_results(job.ems_ref)
                   if @debug
                     log(:info, "start of job results dump")
-                    dump_thing(job_results['artifacts'])
+                    log(:info, job_results['artifacts'])
                     log(:info, "End of job results dump")
                   end
                   #
