@@ -26,7 +26,6 @@ module AnsibleTowerVariablePassing
                 def main
                   dump_root()
                   run(job_template, target)
-                  
                 end
 
                 private
@@ -118,7 +117,12 @@ module AnsibleTowerVariablePassing
                 def extra_variables
                   result = ansible_vars_from_objects(@handle.object, {})
                   result = ansible_vars_from_options(result)
-                  result['from_cf'] = JSON.parse(@handle.get_state_var(:for_ansible))
+
+                  from_cf = JSON.parse(@handle.get_state_var(:for_ansible))
+                  from_cf.each_with_index { |k, v|
+                    result[k.to_sym] = v
+                  }
+                  # result['from_cf'] = JSON.parse(@handle.get_state_var(:for_ansible))
 
                   # result['manageiq'] = manageiq_extra_vars()
                   # result['manageiq_connection'] = manageiq_connection_env
