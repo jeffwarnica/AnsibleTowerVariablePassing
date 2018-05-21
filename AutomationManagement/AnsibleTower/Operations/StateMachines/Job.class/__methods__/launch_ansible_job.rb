@@ -120,7 +120,7 @@ module AnsibleTowerVariablePassing
 
                   from_cf = JSON.parse(@handle.get_state_var(:for_ansible))
                   from_cf.each_with_index { |k, v|
-                    result[k.to_sym] = v
+                    result[k] = v
                   }
                   # result['from_cf'] = JSON.parse(@handle.get_state_var(:for_ansible))
 
