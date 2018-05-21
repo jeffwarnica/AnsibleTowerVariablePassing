@@ -35,42 +35,44 @@ module AnsibleTowerVariablePassing
                   job_results = get_tower_job_results(job.ems_ref)
                   if @debug
                     log(:info, "start of job results dump")
-                    log(:info, job_results)
+                    dump_thing(job_results['artifacts'])
                     log(:info, "End of job results dump")
                   end
+                  #
+                  # cfme_stdout = job.raw_stdout
+                  #
+                  # if cfme_stdout[0, REST_TRIGGER.length] == REST_TRIGGER
+                  #   log(:info, 'Tower hates us, we need to REST the stdout')
+                  #   dump_thing(job)
+                  #   cfme_stdout = get_stdout_from_tower_via_rest(job.ems_ref)
+                  # end
+                  #
+                  # log(:info, "STD OUT >>>>>>>>>>>>>>>>>>>>>>>#{cfme_stdout}<<<<<<<<<<<<<<<<<<<<<<") if @debug
+                  #
+                  # # if match = cfme_stdout.match(/☒(.+?)☒/)
+                  #
+                  # log(:info, "cfme_stdout.encoding = [#{cfme_stdout.encoding}]") if @debug
+                  # log(:info, "GET_DATA_RE.encoding = [#{GET_DATA_RE.encoding}]") if @debug
+                  # log(:info, "Script encoding is   = [#{__ENCODING__}]") if @debug
+                  #
+                  # if match = cfme_stdout.force_encoding("UTF-8").match(GET_DATA_RE)
+                  #   goodstuff = match.captures[0]
+                  #
+                  #   # # somewhere along the line ruby double escaped things. Undo that, \\ -> \
+                  #   # goodstuff.sub!("\\\\", "\\")
+                  #   log(:info, "goodstuff >>>>>>>>>>>>>>>>>>>>>>>#{goodstuff}<<<<<<<<<<<<<<<<<<<<<<") if @debug
+                  # else
+                  #   log(:info, "Magic regexp failed. You sure you did the right bookending in your playbook? hint: [#{RS}]" )
+                  #   exit MIQ_ERROR
+                  # end
+                  # goodstuff = eval("\"#{goodstuff}\"")
+                  #
+                  # log(:info, "eval'd and {}'d goodstuff >>>>>>>>>>>>>>>>>>>>>>>#{goodstuff}<<<<<<<<<<<<<<<<<<<<<<") if @debug
+                  # parsed = JSON.parse(goodstuff)
+                  # @handle.root['from_ansible'] = parsed
+                  # log(:info, "parsed:>>>>>>>>>>>>>>>>#{parsed}<<<<<<<<<<<<<<<<<<") if @debug
 
-                  cfme_stdout = job.raw_stdout
-
-                  if cfme_stdout[0, REST_TRIGGER.length] == REST_TRIGGER
-                    log(:info, 'Tower hates us, we need to REST the stdout')
-                    dump_thing(job)
-                    cfme_stdout = get_stdout_from_tower_via_rest(job.ems_ref)
-                  end
-
-                  log(:info, "STD OUT >>>>>>>>>>>>>>>>>>>>>>>#{cfme_stdout}<<<<<<<<<<<<<<<<<<<<<<") if @debug
-
-                  # if match = cfme_stdout.match(/☒(.+?)☒/)
-
-                  log(:info, "cfme_stdout.encoding = [#{cfme_stdout.encoding}]") if @debug
-                  log(:info, "GET_DATA_RE.encoding = [#{GET_DATA_RE.encoding}]") if @debug
-                  log(:info, "Script encoding is   = [#{__ENCODING__}]") if @debug
-
-                  if match = cfme_stdout.force_encoding("UTF-8").match(GET_DATA_RE)
-                    goodstuff = match.captures[0]
-
-                    # # somewhere along the line ruby double escaped things. Undo that, \\ -> \
-                    # goodstuff.sub!("\\\\", "\\")
-                    log(:info, "goodstuff >>>>>>>>>>>>>>>>>>>>>>>#{goodstuff}<<<<<<<<<<<<<<<<<<<<<<") if @debug
-                  else
-                    log(:info, "Magic regexp failed. You sure you did the right bookending in your playbook? hint: [#{RS}]" )
-                    exit MIQ_ERROR
-                  end
-                  goodstuff = eval("\"#{goodstuff}\"")
-
-                  log(:info, "eval'd and {}'d goodstuff >>>>>>>>>>>>>>>>>>>>>>>#{goodstuff}<<<<<<<<<<<<<<<<<<<<<<") if @debug
-                  parsed = JSON.parse(goodstuff)
-                  @handle.root['from_ansible'] = parsed
-                  log(:info, "parsed:>>>>>>>>>>>>>>>>#{parsed}<<<<<<<<<<<<<<<<<<") if @debug
+                  @handle.root['from_ansible'] = job_results['artifacts']['for_cf']
 
                 end
 
