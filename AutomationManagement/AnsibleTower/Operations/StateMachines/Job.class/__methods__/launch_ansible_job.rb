@@ -25,6 +25,7 @@ module AnsibleTowerVariablePassing
 
                 def main
                   dump_root()
+                  log(:info, "state_var for_ansible: [#{@handle.get_state_var(:for_ansible)}]")
                   run(job_template, target)
                 end
 
