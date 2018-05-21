@@ -41,6 +41,7 @@ module AnsibleTowerVariablePassing
 
 
                   @handle.root['from_ansible'] = job_results['artifacts']['for_cf']
+                  @handle.set_state_var(:from_ansible, job_results['artifacts']['for_cf'].to_json)
 
                 end
 

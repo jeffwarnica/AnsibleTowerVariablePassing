@@ -49,7 +49,7 @@ module AnsibleTowerVariablePassing
                   # We are traversing the list twice because the object.attributes is a DrbObject
                   # and when we use each_with_object on a DrbObject, it doesn't seem to update the
                   # hash. We are investigating that
-                  key_list = object.attributes.keys.select { |k| k.start_with?('param', 'dialog_param', 'for_ansible') }
+                  key_list = object.attributes.keys.select { |k| k.start_with?('param', 'dialog_param') }
                   key_list.each_with_object(ext_vars) do |key, hash|
                     if key.start_with?('param')
                       match_data = ANSIBLE_VAR_REGEX.match(object[key])
@@ -57,8 +57,6 @@ module AnsibleTowerVariablePassing
                     elsif key.starts_with?('dialog_param')
                       match_data = ANSIBLE_DIALOG_VAR_REGEX.match(key)
                       hash[match_data[1]] = object[key] if match_data
-                    # elsif key == 'for_ansible'
-                    #   hash['from_cf'] = object[key]
                     end
                   end
                 end
@@ -123,10 +121,7 @@ module AnsibleTowerVariablePassing
                   from_cf.each do |k, v|
                     result[k] = v
                   end
-                  # result['from_cf'] = JSON.parse(@handle.get_state_var(:for_ansible))
 
-                  # result['manageiq'] = manageiq_extra_vars()
-                  # result['manageiq_connection'] = manageiq_connection_env
                   result
                 end
 
