@@ -35,7 +35,7 @@ module AnsibleTowerVariablePassing
                   job_results = get_tower_job_results(job.ems_ref)
                   if @debug
                     log(:info, "start of job results dump")
-                    dump_thing(job_results)
+                    log(:info, job_results)
                     log(:info, "End of job results dump")
                   end
 
@@ -88,7 +88,7 @@ module AnsibleTowerVariablePassing
                 def fetch_job(job_id)
                   job = @handle.vmdb(JOB_CLASS).find(job_id)
                   if job.nil?
-                    @handle.log(:error, 'Ansible job with id : #{job_id} not found')
+                    @handle.log(:error, "Ansible job with id : #{job_id} not found")
                     exit(MIQ_ERROR)
                   end
                   @job = job
@@ -119,26 +119,25 @@ module AnsibleTowerVariablePassing
 
 
                     # Verify username and password are set
-                    if tower_pass && tower_pass
-
-                      # set the parameters for the API call
-                      params = {
-                          :method => :get,
-                          :url => "#{tower_url}/jobs/#{tower_job_id}",
-                          :verify_ssl => false,
-                          :headers => { :authorization => "Basic #{Base64.strict_encode64("#{tower_user}:#{tower_pass}")}" }
-                      }
-
-                      # Query Tower via REST
-                      response = RestClient::Request.new(params).execute
-                    else
+                    unless tower_pass && tower_pass
                       raise "Function: #{function_name} unable to get credentials from tower object."
                     end
+
+                    # set the parameters for the API call
+                    params = {
+                      method: :get,
+                      url: "#{tower_url}/jobs/#{tower_job_id}",
+                      verify_ssl: false,
+                      headers: { authorization: "Basic #{Base64.strict_encode64("#{tower_user}:#{tower_pass}")}" }
+                    }
+
+                    # Query Tower via REST
+                    response = RestClient::Request.new(params).execute
                   rescue => err
                     log(:error, "Function: #{function_name}, Error: #{err}. Returning nil value")
                     return nil
                   end
-                  response
+                  JSON.parse(response.body)
                 end
 
                 # Get STDOUT from Job Directly from Ansible Tower
