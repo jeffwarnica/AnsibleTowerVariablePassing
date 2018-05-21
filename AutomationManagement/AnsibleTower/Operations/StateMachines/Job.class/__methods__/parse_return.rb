@@ -26,7 +26,12 @@ module AnsibleTowerVariablePassing
 
                 def main
                   job = ansible_job
-                  dump_thing(job)
+                  if @debug
+                    log(:info, "start of job dump")
+                    dump_thing(job)
+                    log(:info, "End of job dump")
+                  end
+
                   cfme_stdout = job.raw_stdout
 
                   tower = @job.ext_management_system
