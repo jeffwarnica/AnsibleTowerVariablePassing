@@ -119,9 +119,9 @@ module AnsibleTowerVariablePassing
                   result = ansible_vars_from_options(result)
 
                   from_cf = JSON.parse(@handle.get_state_var(:for_ansible))
-                  from_cf.each_with_index { |k, v|
+                  from_cf.each_with_index do |k, v|
                     result[k] = v
-                  }
+                  end
                   # result['from_cf'] = JSON.parse(@handle.get_state_var(:for_ansible))
 
                   # result['manageiq'] = manageiq_extra_vars()
