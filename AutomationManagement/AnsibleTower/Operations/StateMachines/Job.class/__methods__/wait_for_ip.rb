@@ -11,7 +11,7 @@ module AnsibleTowerVariablePassing
           module StateMachines
             module Job
               class WaitForIP
-                include RHC_StdLib::StdLib::Core
+                include RedHatConsulting_Utilities::StdLib::Core
                 def initialize(handle = $evm)
                   @handle = handle
                 end

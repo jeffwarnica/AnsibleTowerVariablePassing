@@ -12,7 +12,7 @@ module AnsibleTowerVariablePassing
           module StateMachines
             module Job
               class ParseReturn
-                include RHC_StdLib::StdLib::Core
+                include RedHatConsulting_Utilities::StdLib::Core
                 JOB_CLASS = 'ManageIQ_Providers_AnsibleTower_AutomationManager_Job'.freeze
                 WORKING = 'WORKING'.freeze
                 REST_TRIGGER = 'Standard Output too large to display'.freeze

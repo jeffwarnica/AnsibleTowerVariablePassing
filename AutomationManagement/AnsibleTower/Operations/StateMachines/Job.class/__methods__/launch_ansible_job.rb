@@ -12,7 +12,7 @@ module AnsibleTowerVariablePassing
           module StateMachines
             module Job
               class LaunchAnsibleJob
-                include RHC_StdLib::StdLib::Core
+                include RedHatConsulting_Utilities::StdLib::Core
                 ANSIBLE_VAR_REGEX = Regexp.new(/(.*)=(.*$)/)
                 ANSIBLE_DIALOG_VAR_REGEX = Regexp.new(/dialog_param_(.*)/)
                 SCRIPT_CLASS = 'ManageIQ_Providers_AnsibleTower_AutomationManager_ConfigurationScript'.freeze
